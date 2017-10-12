@@ -1,0 +1,65 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`oc-peach-payment`
+Element encapsulating peach payment methods
+
+@demo demo/index.html 
+-->
+
+<dom-module id="oc-peach-payment-form">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      .wpwl-label-cvv {
+        background-color: red;
+      }
+    </style>
+    <script>
+      var wpwlOptions = {
+        registrations: {
+          requireCvv: true,
+          hideInitialPaymentForms: true
+        },
+        iframeStyles: {
+          'card-number-placeholder': {
+            'color': '#ff0000',
+            'font-size': '16px',
+            'font-family': 'monospace'
+          },
+          'cvv-placeholder': {
+            'color': '#0000ff',
+            'font-size': '16px',
+            'font-family': 'Arial'
+          }
+        }
+      }
+    </script>
+    <script src="https://[[ _widgetSrc ]]"></script>
+    <form action="[[ shopperResultUrl ]]" class="paymentWidgets">VISA MASTER AMEX</form>
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'oc-peach-payment-form',
+
+      properties: {
+        peachWidgetHost: String,
+        checkoutId: String,
+        shopperResultUrl: String
+      },
+
+      observers: [
+        '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
+      ],
+
+      _buildPeachWidgetSourceUrl: function () {
+        this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
+      }
+
+    });
+  </script>
+</dom-module>
