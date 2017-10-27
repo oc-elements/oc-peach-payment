@@ -1,13 +1,7 @@
-<link rel="import" href="../polymer/polymer.html">
-
-<!--
-`oc-peach-payment`
-Element encapsulating peach payment methods
-
-@demo demo/index.html 
--->
+<link rel="import" href="../polymer/polymer-element.html">
 
 <dom-module id="oc-peach-payment-form">
+
   <template>
     <style>
       :host {
@@ -18,48 +12,56 @@ Element encapsulating peach payment methods
       }
     </style>
     <script>
-      var wpwlOptions = {
-        registrations: {
-          requireCvv: true,
-          hideInitialPaymentForms: true
-        },
-        iframeStyles: {
-          'card-number-placeholder': {
-            'color': '#ff0000',
-            'font-size': '16px',
-            'font-family': 'monospace'
-          },
-          'cvv-placeholder': {
-            'color': '#0000ff',
-            'font-size': '16px',
-            'font-family': 'Arial'
-          }
+        var wpwlOptions = {
+            registrations: {
+                requireCvv: true,
+                hideInitialPaymentForms: true
+            },
+            iframeStyles: {
+                'card-number-placeholder': {
+                    'color': '#ff0000',
+                    'font-size': '16px',
+                    'font-family': 'monospace'
+                },
+                'cvv-placeholder': {
+                    'color': '#0000ff',
+                    'font-size': '16px',
+                    'font-family': 'Arial'
+                }
+            }
         }
-      }
     </script>
     <script src="https://[[ _widgetSrc ]]"></script>
     <form action="[[ shopperResultUrl ]]" class="paymentWidgets">VISA MASTER AMEX</form>
   </template>
 
   <script>
-    Polymer({
-
-      is: 'oc-peach-payment-form',
-
-      properties: {
-        peachWidgetHost: String,
-        checkoutId: String,
-        shopperResultUrl: String
-      },
-
-      observers: [
-        '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
-      ],
-
-      _buildPeachWidgetSourceUrl: function () {
-        this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
+    /**
+     * `oc-peach-payment-form`
+     * Elements for using peach payments
+     *
+     * @customElement
+     * @polymer
+     * @demo demo/index.html
+     */
+    class OcPeachPaymentForm extends Polymer.Element {
+      static get is() { return 'oc-peach-payment-form'; }
+      static get properties() {
+        return {
+            _peachWidgetHost: String,
+            _checkoutId: String,
+            _shopperResultUrl: String,
+            observer: '_buildPeachWidgetSourceUrl'
+        };
       }
 
-    });
+
+        _buildPeachWidgetSourceUrl: function () {
+            this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
+        }
+
+    }
+
+    window.customElements.define(OcPeachPaymentForm.is, OcPeachPaymentForm);
   </script>
 </dom-module>

@@ -12,17 +12,19 @@
     <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
     <link rel="import" href="../oc-peach-payment-form.html">
 
-    <style is="custom-style" include="demo-pages-shared-styles">
-    </style>
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
   </head>
   <body>
     <div class="vertical-section-container centered">
       <h3>Basic oc-peach-payment demo</h3>
       <demo-snippet>
         <template>
-          <oc-peach-payment-form checkout-id="C71804FB91E3981680C3376736CF51E4.sbg-vm-tx02"
-                            peach-widget-host="test.oppwa.com/v1"
-                            shopper-result-url="https://peachpayments.docs.oppwa.com/tutorials/integration-guide/one-click"
+          <oc-peach-payment-form
+                                 peach-widget-host="test.oppwa.com/v1"
+                                 shopper-result-url="https://peachpayments.docs.oppwa.com/tutorials/integration-guide/one-click"
           ></oc-peach-payment-form>
         </template>
       </demo-snippet>
