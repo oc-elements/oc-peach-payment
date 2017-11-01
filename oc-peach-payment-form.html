@@ -1,7 +1,13 @@
-<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+`oc-peach-payment`
+Element encapsulating peach payment methods
+
+@demo demo/index.html
+-->
 
 <dom-module id="oc-peach-payment-form">
-
   <template>
     <style>
       :host {
@@ -9,6 +15,11 @@
       }
       .wpwl-label-cvv {
         background-color: red;
+      }
+      iframe {
+        width:100%;
+        border:none;
+        height:280px;
       }
     </style>
     <script>
@@ -31,37 +42,29 @@
             }
         }
     </script>
-    <script src="https://[[ _widgetSrc ]]"></script>
-    <form action="[[ shopperResultUrl ]]" class="paymentWidgets">VISA MASTER AMEX</form>
+    <iframe src="../../src/shop-peach-credit-frame.html?checkoutId=[[checkoutId]]"></iframe>
+
   </template>
 
   <script>
-    /**
-     * `oc-peach-payment-form`
-     * Elements for using peach payments
-     *
-     * @customElement
-     * @polymer
-     * @demo demo/index.html
-     */
-    class OcPeachPaymentForm extends Polymer.Element {
-      static get is() { return 'oc-peach-payment-form'; }
-      static get properties() {
-        return {
-            _peachWidgetHost: String,
-            _checkoutId: String,
-            _shopperResultUrl: String,
-            observer: '_buildPeachWidgetSourceUrl'
-        };
-      }
+      Polymer({
 
+          is: 'oc-peach-payment-form',
 
-        _buildPeachWidgetSourceUrl: function () {
-            this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
-        }
+          properties: {
+              peachWidgetHost: String,
+              checkoutId: String,
+              shopperResultUrl: String
+          },
 
-    }
+          observers: [
+              '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
+          ],
 
-    window.customElements.define(OcPeachPaymentForm.is, OcPeachPaymentForm);
+          _buildPeachWidgetSourceUrl: function () {
+              this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
+          }
+
+      });
   </script>
 </dom-module>
