@@ -4,7 +4,7 @@
 `oc-peach-payment`
 Element encapsulating peach payment methods
 
-@demo demo/index.html 
+@demo demo/index.html
 -->
 
 <dom-module id="oc-peach-payment-form">
@@ -16,50 +16,61 @@ Element encapsulating peach payment methods
       .wpwl-label-cvv {
         background-color: red;
       }
+      iframe {
+        width:100%;
+        border:none;
+        height:280px;
+      }
     </style>
     <script>
-      var wpwlOptions = {
-        registrations: {
-          requireCvv: true,
-          hideInitialPaymentForms: true
-        },
-        iframeStyles: {
-          'card-number-placeholder': {
-            'color': '#ff0000',
-            'font-size': '16px',
-            'font-family': 'monospace'
-          },
-          'cvv-placeholder': {
-            'color': '#0000ff',
-            'font-size': '16px',
-            'font-family': 'Arial'
-          }
+        var wpwlOptions = {
+            registrations: {
+                requireCvv: true,
+                hideInitialPaymentForms: true
+            },
+            iframeStyles: {
+                'card-number-placeholder': {
+                    'color': '#ff0000',
+                    'font-size': '16px',
+                    'font-family': 'monospace'
+                },
+                'cvv-placeholder': {
+                    'color': '#0000ff',
+                    'font-size': '16px',
+                    'font-family': 'Arial'
+                }
+            }
         }
-      }
     </script>
-    <script src="https://[[ _widgetSrc ]]"></script>
-    <form action="[[ shopperResultUrl ]]" class="paymentWidgets">VISA MASTER AMEX</form>
+    <iframe src="../../src/shop-peach-credit-frame.html?checkoutId=[[checkoutId]]&action=[[_redirect]]"></iframe>
+
   </template>
 
   <script>
-    Polymer({
+      Polymer({
 
-      is: 'oc-peach-payment-form',
+          is: 'oc-peach-payment-form',
 
-      properties: {
-        peachWidgetHost: String,
-        checkoutId: String,
-        shopperResultUrl: String
-      },
+          properties: {
+              peachWidgetHost: String,
+              checkoutId: String,
+              shopperResultUrl: String,
+              _redirect: {
+                  type: Boolean,
+                  value: encodeURIComponent([window.location.origin, '/account-settings'].join(''))
+              }
+          },
 
-      observers: [
-        '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
-      ],
+          observers: [
+              '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
+          ],
 
-      _buildPeachWidgetSourceUrl: function () {
-        this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
-      }
 
-    });
+          _buildPeachWidgetSourceUrl: function () {
+              this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
+          }
+
+
+      });
   </script>
 </dom-module>
