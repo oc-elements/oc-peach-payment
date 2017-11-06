@@ -42,7 +42,7 @@ Element encapsulating peach payment methods
             }
         }
     </script>
-    <iframe src="../../src/shop-peach-credit-frame.html?checkoutId=[[checkoutId]]"></iframe>
+    <iframe src="../../src/shop-peach-credit-frame.html?checkoutId=[[checkoutId]]&action=[[_redirect]]"></iframe>
 
   </template>
 
@@ -54,16 +54,22 @@ Element encapsulating peach payment methods
           properties: {
               peachWidgetHost: String,
               checkoutId: String,
-              shopperResultUrl: String
+              shopperResultUrl: String,
+              _redirect: {
+                  type: Boolean,
+                  value: encodeURIComponent([window.location.origin, '/account-settings'].join(''))
+              }
           },
 
           observers: [
               '_buildPeachWidgetSourceUrl(peachWidgetHost, checkoutId)'
           ],
 
+
           _buildPeachWidgetSourceUrl: function () {
               this._widgetSrc = this.peachWidgetHost + '/paymentWidgets.js?checkoutId=' + this.checkoutId;
           }
+
 
       });
   </script>
